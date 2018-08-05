@@ -75,7 +75,7 @@ let flatten = (obj, options = {}) => {
         if (_.isObject(value)) {
             _.assign(flat, flatten(value, { start: start, prepend: options.prepend, append: options.append }));
         }
-        else {
+        else if (value !== undefined && value != null){
             flat[start] = encodeURIComponent(value);
         }
     });
