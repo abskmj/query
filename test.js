@@ -54,6 +54,11 @@ describe('Query', () => {
         expect(params).to.be.an('object').that.is.empty;
     });
     
+    it('should return an empty json on null query string', () => {
+        let params = query.parse(null);
+        expect(params).to.be.an('object').that.is.empty;
+    });
+    
     it('should return an empty json on invalid query string', () => {
         let params = query.parse('test');
         expect(params).to.be.an('object').that.is.empty;

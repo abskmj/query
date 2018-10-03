@@ -1,7 +1,9 @@
 const _ = require('lodash');
 const debug = require('debug')('abskmj:query');
 
-module.exports.parse = (query = '', options) => {
+module.exports.parse = (query, options) => {
+    query = query || '';
+    
     const pairSeparator = '&';
     const valueSeparator = '=';
 
