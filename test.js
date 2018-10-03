@@ -34,5 +34,13 @@ describe('Query', () => {
         
         expect(params.indexOf('salary') < 0).to.be.ok;
         expect(params.indexOf('grade') < 0).to.be.ok;
-    })
+    });
+    
+    it('should not parse id as number', () => {
+        const id = '5bab6bbf919a157089c18d44';
+        
+        let params = query.parse('where[id]='+id);
+        
+        expect(params.where.id).to.equal(id);
+    });
 });

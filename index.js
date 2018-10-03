@@ -27,7 +27,7 @@ module.exports.parse = (query, options) => {
 
 let parseValue = (value) => {
     value = decodeURIComponent(value);
-    let temp = parseInt(value);
+    let temp = Number(value);
 
     if (!isNaN(temp)) {
         return temp;
