@@ -1,6 +1,7 @@
 const _ = require('lodash');
+const debug = require('debug')('abskmj:query');
 
-module.exports.parse = (query, options) => {
+module.exports.parse = (query = '', options) => {
     const pairSeparator = '&';
     const valueSeparator = '=';
 
@@ -18,7 +19,7 @@ module.exports.parse = (query, options) => {
             _.set(parameters, name, value);
         }
         else {
-            throw new Error(`Doesn't seem be a name value pair: ${pair}`);
+            debug(`Doesn't seem be a name value pair: ${pair}`);
         }
     });
 

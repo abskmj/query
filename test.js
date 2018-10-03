@@ -43,4 +43,19 @@ describe('Query', () => {
         
         expect(params.where.id).to.equal(id);
     });
+    
+    it('should return an empty json on no query string', () => {
+        let params = query.parse();
+        expect(params).to.be.an('object').that.is.empty;
+    });
+    
+    it('should return an empty json on blank query string', () => {
+        let params = query.parse('');
+        expect(params).to.be.an('object').that.is.empty;
+    });
+    
+    it('should return an empty json on invalid query string', () => {
+        let params = query.parse('test');
+        expect(params).to.be.an('object').that.is.empty;
+    });
 });
