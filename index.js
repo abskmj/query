@@ -3,7 +3,7 @@ const debug = require('debug')('abskmj:query');
 
 module.exports.parse = (query, options) => {
     query = query || '';
-    
+
     const pairSeparator = '&';
     const valueSeparator = '=';
 
@@ -29,6 +29,12 @@ module.exports.parse = (query, options) => {
 }
 
 let parseValue = (value) => {
+    if(value === '%00'){
+        return null;
+    } else if (value === ''){
+        return '';
+    }
+    
     value = decodeURIComponent(value);
     let temp = Number(value);
 
@@ -42,16 +48,16 @@ let parseValue = (value) => {
 
 module.exports.stringify = (query, options) => {
     let flat = flatten(query, { prepend: '[', append: ']' });
-    
+
     let str = '';
-    
-    _.each(flat, (value,key) => {
-        if(str !== '' ){
+
+    _.each(flat, (value, key) => {
+        if (str !== '') {
             str += '&';
         }
         str += `${key}=${value}`;
     });
-    
+
     return str;
 }
 
@@ -78,8 +84,11 @@ let flatten = (obj, options = {}) => {
         if (_.isObject(value)) {
             _.assign(flat, flatten(value, { start: start, prepend: options.prepend, append: options.append }));
         }
-        else if (value !== undefined && value != null){
+        else if (value !== undefined && value !== null) {
             flat[start] = encodeURIComponent(value);
+        }
+        else if (value == null) {
+            flat[start] = '%00';
         }
     });
 
