@@ -10,11 +10,11 @@ describe('Query', () => {
         expect(params).to.equal(queryStr);
     });
 
-    it('should translate null values properly', () => {
+    it('should translate null values', () => {
         var string = 'employee[name]=ABC&employee[salary]=%00&grade=%00';
-        
+
         let json = query.parse(string);
-        
+
         expect(json.grade).to.equal(null);
         expect(json.employee.salary).to.equal(null);
 
@@ -22,18 +22,45 @@ describe('Query', () => {
 
         expect(params).to.equal(string);
     });
-    
-    it('should translate empty values properly', () => {
+
+    it('should translate empty values', () => {
         var string = 'employee[name]=ABC&employee[salary]=&grade=';
-        
+
         let json = query.parse(string);
-        
+
         expect(json.grade).to.equal('');
         expect(json.employee.salary).to.equal('');
 
         let params = query.stringify(json);
 
         expect(params).to.equal(string);
+    });
+
+    it('should translate arrays', () => {
+        let json = {
+            aggregate: [{
+                    $match: {
+                        player: 89
+                    }
+                },
+                {
+                    $group: {
+                        _id: 'null',
+                        sum: {
+                            $sum: '$amount'
+                        }
+                    }
+                }
+            ]
+        }
+        
+        let string = query.stringify(json);
+        
+        expect(string).to.equal('');
+        
+        let result = query.parse(string);
+        
+        expect(JSON.stringify(result)).to.equal('');
     });
 
     it('should return an empty json on no query string', () => {
