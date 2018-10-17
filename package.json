@@ -1,7 +1,7 @@
 {
   "name": "@abskmj/query",
   "version": "1.0.0",
-  "description": "",
+  "description": "It converts complex json with arrays and nested objects into url parameters or query string. It can also parse such query string back to json.",
   "main": "index.js",
   "scripts": {
     "test": "nodemon --exec \"mocha test.js\"",
@@ -17,5 +17,9 @@
   "dependencies": {
     "debug": "^4.0.1",
     "lodash": "^4.17.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abskmj/query.git"
   }
 }
