@@ -56,11 +56,11 @@ describe('Query', () => {
         
         let string = query.stringify(json);
         
-        expect(string).to.equal('');
+        expect(string).to.equal('aggregate[0][$match][player]=89&aggregate[1][$group][_id]=null&aggregate[1][$group][sum][$sum]=%24amount');
         
         let result = query.parse(string);
         
-        expect(JSON.stringify(result)).to.equal('');
+        expect(JSON.stringify(result)).to.equal(JSON.stringify(json));
     });
 
     it('should return an empty json on no query string', () => {
