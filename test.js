@@ -45,7 +45,7 @@ describe('Query', () => {
                 },
                 {
                     $group: {
-                        _id: 'null',
+                        _id: '',
                         sum: {
                             $sum: '$amount'
                         }
@@ -56,7 +56,7 @@ describe('Query', () => {
         
         let string = query.stringify(json);
         
-        expect(string).to.equal('aggregate[0][$match][player]=89&aggregate[1][$group][_id]=null&aggregate[1][$group][sum][$sum]=%24amount');
+        expect(string).to.equal('aggregate[0][$match][player]=89&aggregate[1][$group][_id]=&aggregate[1][$group][sum][$sum]=%24amount');
         
         let result = query.parse(string);
         
@@ -81,5 +81,26 @@ describe('Query', () => {
     it('should return an empty json on invalid query string', () => {
         let params = query.parse('test');
         expect(params).to.be.an('object').that.is.empty;
+    });
+    
+    it('should translate json values', () => {
+        let name = {
+            "name.first": "ABC",
+            "name.last": "XYZ"
+        };
+        
+        let params = { 
+            emp: JSON.stringify(name),
+            status: 'active'
+        };
+        
+        let string = query.stringify(params);
+        
+        expect(string).to.equal('emp=%7B%22name.first%22%3A%22ABC%22%2C%22name.last%22%3A%22XYZ%22%7D&status=active');
+        
+        let json = query.parse(string);
+        
+        expect(JSON.stringify(json.emp)).to.equal(JSON.stringify(name));
+        
     });
 });

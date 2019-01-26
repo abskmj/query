@@ -29,17 +29,28 @@ module.exports.parse = (query, options) => {
 }
 
 let parseValue = (value) => {
-    if(value === '%00'){
+    if (value === '%00') {
         return null;
-    } else if (value === ''){
+    }
+    else if (value === '') {
         return '';
     }
-    
-    value = decodeURIComponent(value);
-    let temp = Number(value);
 
-    if (!isNaN(temp)) {
-        return temp;
+    value = decodeURIComponent(value);
+
+    try {
+        // try to parse value as a JSON
+        
+        return JSON.parse(value);
+    }
+    catch (e) {
+        // try to parse value as a Number
+        
+        let temp = Number(value);
+
+        if (!isNaN(temp)) {
+            return temp;
+        }
     }
 
     return value;
